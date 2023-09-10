@@ -17,47 +17,47 @@ class List_Separator_Middleware:
 
     def separate_list_into_spaces(
         self,
-        skus: List[str],
-        pricelist_spaces: List[Tuple[str, int]]
+        data_values: List[str],
+        spaces: List[Tuple[str, int]]
     ):
         start = datetime.now()
 
-        total_pricelist_spaces = sum([tup[1] for tup in pricelist_spaces])
-        num_skus = len(skus)
+        total_spaces = sum([tup[1] for tup in spaces])
+        num_data_values = len(data_values)
 
-        if total_pricelist_spaces < num_skus:
-            print(f"not enough strings to contain them all at once total skus: {num_skus} total pricelist spaces: {total_pricelist_spaces}")
+        if total_spaces < num_data_values:
+            print(f"not enough strings to contain them all at once total data_values: {num_data_values} total pricelist spaces: {total_spaces}")
 
-            i, steamid_sku_lists = 0, {tup[0]:[] for tup in pricelist_spaces}
-            for steamid, pricelist_space in pricelist_spaces:
-                steamid_sku_lists[steamid].append(skus[i:pricelist_space])
-                i += pricelist_space
+            i, list_name_data_value_lists = 0, {tup[0]:[] for tup in spaces}
+            for list_name, space in spaces:
+                list_name_data_value_lists[list_name].append(data_values[i:space])
+                i += space
 
-            return steamid_sku_lists
+            return list_name_data_value_lists
         
-        steamid_sku_lists = {tup[0]:[] for tup in pricelist_spaces}
-        sku_spots_granted = {sku: 0 for sku in skus}
-        for steamid, pricelist_space in pricelist_spaces:
-            set_pricelist_space = pricelist_space
-            local_sku_spots_granted = sku_spots_granted.copy()
+        list_name_data_value_lists = {tup[0]:[] for tup in spaces}
+        data_value_spots_granted = {data_value: 0 for data_value in data_values}
+        for list_name, space in spaces:
+            set_space = space
+            local_data_value_spots_granted = data_value_spots_granted.copy()
             
 
-            while pricelist_space > 0 and len(skus) != len(steamid_sku_lists[steamid]): # safety margin 
-                newly_added_skus = []
+            while space > 0 and len(data_values) != len(list_name_data_value_lists[list_name]): # safety margin 
+                newly_added_data_values = []
                 
-                for sku in takewhile(
-                    lambda x: pricelist_space > 0,
-                    self.filter_for_lowest_value_keys(local_sku_spots_granted)
+                for data_value in takewhile(
+                    lambda x: space > 0,
+                    self.filter_for_lowest_value_keys(local_data_value_spots_granted)
                 ):
-                    sku_spots_granted[sku] += 1
-                    pricelist_space -= 1
+                    data_value_spots_granted[data_value] += 1
+                    space -= 1
 
-                    steamid_sku_lists[steamid].append(sku)
-                    newly_added_skus.append(sku)
+                    list_name_data_value_lists[list_name].append(data_value)
+                    newly_added_data_values.append(data_value)
 
-                for sku in newly_added_skus: local_sku_spots_granted.pop(sku, None)
+                for data_value in newly_added_data_values: local_data_value_spots_granted.pop(data_value, None)
 
-            if self.print_lenghts: print(f"list for {steamid} had {len(steamid_sku_lists[steamid])} skus assigned, having a set max space of {set_pricelist_space}")
+            if self.print_lenghts: print(f"list for {list_name} had {len(list_name_data_value_lists[list_name])} data_values assigned, having a set max space of {set_space}")
 
         if self.print_runtime: print(f"Runtime: {datetime.now()-start}")
-        return steamid_sku_lists
+        return list_name_data_value_lists
