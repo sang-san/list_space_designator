@@ -3,7 +3,7 @@ from datetime import datetime
 from itertools import takewhile
 
 
-class Pricelist_Separator_Middleware:
+class List_Separator_Middleware:
     def __init__(self, print_runtime: bool = True, print_lenghts: bool = False):
         self.print_runtime = print_runtime
         self.print_lenghts = print_lenghts
@@ -57,7 +57,7 @@ class Pricelist_Separator_Middleware:
 
                 for sku in newly_added_skus: local_sku_spots_granted.pop(sku, None)
 
-            if self.print_lenghts: print(f"pricelist for {steamid} had {len(steamid_sku_lists[steamid])} skus assigned, having a set max space of {set_pricelist_space}")
+            if self.print_lenghts: print(f"list for {steamid} had {len(steamid_sku_lists[steamid])} skus assigned, having a set max space of {set_pricelist_space}")
 
         if self.print_runtime: print(f"Runtime: {datetime.now()-start}")
         return steamid_sku_lists
