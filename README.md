@@ -4,7 +4,7 @@ Compact class that can be used to distribute a given list of values into any spe
 
 Example:
 ```py
-from separator import Pricelist_Separator_Middleware
+from separator import List_Separator_Middleware
 
 separator_instance = List_Separator_Middleware(print_runtime=False)
 print(separator_instance.separate_list_into_spaces([
