@@ -1,4 +1,4 @@
-# pricelist_space_designator
+# list_space_designator
 
 Compact class that can be used to distribute a given list of values into any specified number of sublists with adjustable max capacity, while maintaining equal commonness when possible.
 
@@ -6,7 +6,7 @@ Example:
 ```py
 from separator import Pricelist_Separator_Middleware
 
-separator_instance = Pricelist_Separator_Middleware(print_runtime=False)
+separator_instance = List_Separator_Middleware(print_runtime=False)
 print(separator_instance.separate_list_into_spaces([
   "value_one",
   "value_two",
