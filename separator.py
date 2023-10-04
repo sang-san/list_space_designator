@@ -30,7 +30,8 @@ class List_Separator_Middleware:
 
             i, list_name_data_value_lists = 0, {tup[0]:[] for tup in spaces}
             for list_name, space in spaces:
-                list_name_data_value_lists[list_name].append(data_values[i:space])
+                end = i + space
+                list_name_data_value_lists[list_name].append(data_values[i:end])
                 i += space
 
             return list_name_data_value_lists
